@@ -1,0 +1,20 @@
+//function to get/print the last successful build no. of the piepeline 
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Get Latest Build') {
+            steps {
+                script {
+                    def buildNumber = currentBuild.previousSuccessfulBuild?.number
+                    if (buildNumber != null) {
+                        echo "Latest successful build number: ${buildNumber}"
+                    } else {
+                        error "No previous successful build found."
+                    }
+                }
+            }
+        }
+    }
+}
